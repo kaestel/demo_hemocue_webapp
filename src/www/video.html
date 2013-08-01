@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Hemocue</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
+		<link type="text/css" rel="stylesheet" media="all" href="/css/seg_tablet.css" />
+		<script type="text/javascript" src="/js/seg_tablet.js"></script>
+	</head>
+
+<body class="i:validdevice ">
+
+<div id="page" class="">
+
+	<div id="header"></div>
+	
+	<div id="content">
+		<div class="storage_set">storage set</div>
+
+		<br />
+		<br />
+		<br />
+		<br />
+
+		<div class="storage_get">storage get</div>
+	</div>
+
+	<script type="text/javascript">
+
+	var storage_button_set = u.qs(".storage_set");
+	alert(storage_button_set);
+	u.e.click(storage_button_set);
+	storage_button_set.clicked = function(){
+
+		alert("localStorage set:" + window.localStorage);
+
+
+		var string = "";
+		for(i = 0; i < 52428800; i++) {
+			string += "a";
+		}
+
+		window.localStorage.test = string;
+
+	}
+
+	var storage_button_get = u.qs(".storage_get");
+	alert(storage_button_get);
+	u.e.click(storage_button_get);
+	storage_button_get.clicked = function(){
+		alert("localStorage get:" + window.localStorage.test.length);
+	}
+	</script>
+
+</div>
+
+<div class="scene list">
+	<h2>Presentations</h2>
+	<ul class="actions">
+		<li><a href="" class="button">Add more presentations</a></li>
+	</ul>
+
+	<ul class="list">
+		<li class="p1"><h3>WBC & WBC DIFF</h3></li>
+		<li class="p2"><h3>Albumin 201</h3></li>
+		<li class="p3"><h3>Hemoglobinsystemer</h3></li>
+		<li class="p4"><h3>HbA1c 501</h3></li>
+	</ul>
+</div>
+
+<div class="scene add">
+	<h2>Add more presentations</h2>
+	<ul class="actions">
+		<li><a href="" class="button">Done</a></li>
+	</ul>
+
+	<ul class="list">
+		<li class="added">
+			<h3>WBC & WBC DIFF</h3>
+			<ul class="actions">
+				<li><a href="" class="button remove">Remove</a></li>
+			</ul>
+		</li>
+		<li class="added">
+			<h3>Albumin 201</h3>
+			<ul class="actions">
+				<li><a href="" class="button remove">Remove</a></li>
+			</ul>
+		</li>
+		<li class="">
+			<h3>Albumin 202</h3>
+			<ul class="actions">
+				<li><a href="" class="button add">Add</a></li>
+			</ul>
+		</li>
+		<li class="p2">
+			<ul class="actions">
+				<li><a href="" class="button add">Add</a></li>
+			</ul>
+			<h3>Albumin 203</h3>
+		</li>
+		<li class="p2">
+			<h3>Albumin 204</h3>
+			<ul class="actions">
+				<li><a href="" class="button add">Add</a></li>
+			</ul>
+		</li>
+		<li class="added">
+			<h3>Albumin 205</h3>
+			<ul class="actions">
+				<li><a href="" class="button remove">Remove</a></li>
+			</ul>
+		</li>
+		<li class="added">
+			<h3>Hemoglobinsystemer</h3>
+			<ul class="actions">
+				<li><a href="" class="button remove">Remove</a></li>
+			</ul>
+		</li>
+		<li class="p2">
+			<h3>Albumin 201</h3>
+			<ul class="actions">
+				<li><a href="" class="button add">Add</a></li>
+			</ul>
+		</li>
+		<li class="added">
+			<h3>HbA1c 501</h3>
+			<ul class="actions">
+				<li><a href="" class="button remove">Remove</a></li>
+			</ul>
+		</li>
+		<li class="p4">
+			<h3>HbA1c 601</h3>
+			<ul class="actions">
+				<li><a href="" class="button add">Add</a></li>
+			</ul>
+		</li>
+	</ul>
+	
+</div>
+
+<div class="scene presentation">
+	<div class="feedback">Feedback</div>
+	<div class="close">Close</div>
+	
+	<div class="wrapper">
+		<ul class="presentation">
+			<li class="s1">slide 1</li>
+			<li class="s2">slide 2</li>
+			<li class="s3">slide 3
+				<!--video controls="autohide">
+					<source src="/media/video/video.mp4" />
+					<source src="/media/video/video.ogv" />
+				</video>
+
+				<video width="500" height="280" controls="autohide">
+					<source src="/media/video/video_960x540.mp4"  
+				</video-->
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div class="scene feedback">
+
+	<form action="" method="post">
+		<h2>Feedback</h2>
+		<fieldset>
+			<div class="field select">
+				<label>Client</label>
+				<select name="client">
+					<option value="">Hospital A</option>
+					<option value="">Hospital B</option>
+					<option value="">Hospital C</option>
+				</select>
+			</div>
+			<div class="field text">
+				<label>Title</label>
+				<input type="text" name="title" />
+			</div>
+			<div class="field text">
+				<label>Feedback</label>
+				<textarea name="feedback"></textarea>
+			</div>
+		</fieldset>
+		<ul class="actions">
+			<li><input type="button" class="button" value="Save" /></li>
+			<li><input type="button" class="button" value="Cancel" /></li>
+		</ul>
+	</form>
+
+</div>
+
+	</div>
+
+	<div id="navigation"></div>
+
+	<div id="footer"></div>
+
+</div>
+
+</body>
+</html>

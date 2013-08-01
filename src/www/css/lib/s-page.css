@@ -1,0 +1,23 @@
+* {font-family: Helvetica, Arial; font-size: 14px; line-height: 1em; color: #000000; font-weight: normal;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-webkit-text-size-adjust: none;
+}
+
+html {height: 100%;}
+body {background: #a6192e; margin: 0; overflow-y: scroll; height: 100%;}
+
+
+/* BASE */
+h1, h2, h3, h4, h5, h6, p, ul, li, dl, dd, dt, address {padding: 0; margin: 0;}
+ul {list-style: none;}
+a {text-decoration: none; cursor: pointer;}
+a:hover {text-decoration: underline; color: black;}
+img {border: 0; display: block;}
+form, fieldset, label, input, select, textarea {padding: 0; margin: 0; font-weight: normal;}
+fieldset {border: none;}
+input, select, textarea {font-size: 14px;}
+input, textarea {outline: none;}
+
+
+#page {position: relative; text-align: left; font-size: 0; height: 100%;}

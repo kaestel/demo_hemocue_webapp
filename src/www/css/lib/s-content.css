@@ -1,0 +1,137 @@
+#content {height: 100%; background: #a6192e url(/img/logo.png) no-repeat top right; }
+#content .scene {display: none; opacity: 0; height: 100%;}
+
+.app #content {background-position: right 20px;}
+
+
+.pres #content {background: #a6192e;}
+
+
+#content ul.actions {padding: 0; font-size: 0;}
+#content ul.actions li {width: auto; height: auto; display: inline-block; padding: 0 10px 10px 0px; vertical-align: top;}
+#content ul.actions li a {line-height: 1.2em; font-size: 13px; font-weight: normal; display: inline-block; vertical-align: top;}
+
+#content ul.actions input.button {width: auto; height: auto; padding: 3px 12px; line-height: 1.2em;}
+@media all and (-webkit-min-device-pixel-ratio:0) {#content ul.actions input.button {padding-bottom: 5px;}}
+#content ul.actions a.button {display: block; text-decoration: none; height: 14px; padding: 4px 12px 8px; line-height: 1.2em;}
+
+/* DEFAULT BUTTON */
+#content ul.actions input.button,
+#content ul.actions a.button {box-shadow: 1px 1px 3px #333333; font-size: 13px; font-weight: normal; cursor: pointer; border-radius: 3px; 
+
+	/* dont show icon as default */
+	background-repeat: no-repeat;
+	background-position: top left;
+
+	border: 1px solid #cdcdcd; color: #666666; text-shadow: -1px 1px 1px #dedede; background-color: #eeeeee;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f0f0f0), to(#dddddd));
+	background-image: -webkit-linear-gradient(top, #f0f0f0, #dddddd);
+	background-image: -moz-linear-gradient(top, #f0f0f0, #dddddd);
+}
+#content ul.actions input.button:hover,
+#content ul.actions a.button:hover {
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#dddddd), to(#f0f0f0));
+	background-image: -webkit-linear-gradient(top, #dddddd, #f0f0f0);
+	background-image: -moz-linear-gradient(center top , #dddddd, #f0f0f0);
+}
+
+#content ul.actions input.button.add,
+#content ul.actions a.button.add {
+	border: 1px solid #a7c15c; color: #5D7731; text-shadow: -1px 1px 1px #dedede; background-color: #b6d770;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#c8e183), to(#a3cd5b));
+	background-image: -webkit-linear-gradient(top, #c8e183, #a3cd5b);
+	background-image: -moz-linear-gradient(top, #c8e183, #a3cd5b);
+}
+#content ul.actions input.button.add:hover,
+#content ul.actions a.button.add:hover {
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#a3cd5b), to(#c8e183));
+	background-image: -webkit-linear-gradient(top, #a3cd5b, #c8e183);
+	background-image: -moz-linear-gradient(top, #a3cd5b, #c8e183);
+}
+
+
+/* SECONDARY BUTTON */
+#content ul.actions input.button.remove,
+#content ul.actions a.button.remove {
+	border: 1px solid #e9ac26; color: #9f742c; text-shadow: -1px 1px 1px #dedede; background-color: #fecd60;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fed76e), to(#fdc04f));
+	background-image: -webkit-linear-gradient(top, #fed76e, #fdc04f);
+	background-image: -moz-linear-gradient(top, #fed76e, #fdc04f);
+}
+#content ul.actions input.button.secondary:hover,
+#content ul.actions a.button.secondary:hover {
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdc04f), to(#fed76e));
+	background-image: -webkit-linear-gradient(top, #fdc04f, #fed76e);
+	background-image: -moz-linear-gradient(top, #fdc04f, #fed76e);
+}
+
+
+/* LOGIN */
+#content .scene.login {text-align: center;}
+#content .scene.login form {display: inline-block; padding-top: 200px; text-align: left;}
+#content .scene.login h2 {padding: 50px 0 20px; text-align: left; color: white; font-size: 30px;}
+
+#content .scene.login form .field {padding: 0 0 10px;}
+#content .scene.login form label {display: none;}
+#content .scene.login form .field input {width: 150px; height: 25px; padding: 0 5px;}
+
+
+/* LIST */
+#content .scene.list {text-align: center;}
+#content .scene.list h2 {margin: 0 auto; width: 920px; padding: 50px 20px 20px; text-align: left; color: white; font-size: 30px;}
+#content .scene.list ul.actions {padding: 0; font-size: 0; margin: 0 auto; width: 920px; text-align: left;}
+
+#content .scene.list ul.list {font-size: 0; width: 960px; margin: 20px auto; text-align: left;}
+#content .scene.list ul.list li {display: inline-block; vertical-align: top; width: 280px; padding-top: 157px; height: 30px; margin: 20px; cursor: pointer;}
+#content .scene.list ul.list li h3 {padding: 10px 0; text-align: left; color: white; font-size: 16px;}
+
+#content .scene.list ul.list .p1 {background: transparent url(/img/p1.jpg) no-repeat top left;}
+#content .scene.list ul.list .p2 {background: transparent url(/img/p2.jpg) no-repeat top left;}
+#content .scene.list ul.list .p3 {background: transparent url(/img/p3.jpg) no-repeat top left;}
+#content .scene.list ul.list .p4 {background: transparent url(/img/p4.jpg) no-repeat top left;}
+	
+
+/* ADD */
+#content .scene.add {text-align: center;}
+#content .scene.add h2 {margin: 0 auto; width: 920px; padding: 50px 20px 20px; text-align: left; color: white; font-size: 30px;}
+#content .scene.add ul.actions {padding: 0; font-size: 0; margin: 0 auto; width: 920px; text-align: left;}
+
+#content .scene.add ul.list {width: 920px; margin: 20px auto; text-align: left;}
+#content .scene.add ul.list li {display: block; cursor: pointer; position: relative; border-bottom: 1px solid #dedede;}
+#content .scene.add ul.list li h3 {padding: 10px 0; text-align: left; color: white; font-size: 16px; color: #bbbbbb;}
+#content .scene.add ul.list li.added h3 {color: #ffffff;}
+#content .scene.add ul.list li .actions {position: absolute; right: 0; top: 3px; width: auto;}
+#content .scene.add ul.list li .actions li {border: none;}
+#content .scene.add ul.list li .actions li a {width: 70px; text-align: center;}
+
+
+/* PRESENTATION */
+#content .scene.presentation {position: relative; background: red;}
+#content .scene.presentation .feedback {position: absolute; top: -5px; right: 20px; background: white; padding: 10px 10px 5px; border-radius: 5px; border: 1px solid #dedede; z-index: 10; cursor: pointer;}
+#content .scene.presentation .close {position: absolute; top: -5px; left: 20px; background: white; padding: 10px 10px 5px; border-radius: 5px; border: 1px solid #dedede; z-index: 10; cursor: pointer;}
+.app #content .scene.presentation .feedback {top: 15px;}
+.app #content .scene.presentation .close {top: 15px;}
+#content .scene.presentation .wrapper {width: 1024px; margin: 0 auto; position: absolute; bottom: 0; left: 50%; margin-left: -512px; overflow: hidden; z-index: 5;}
+#content .scene.presentation ul.presentation {text-align: center; font-size: 0; height: 660px; width: 3072px;
+	-webkit-transform: translate3d(0,0,0);
+}
+#content .scene.presentation ul.presentation li {width: 1024px; height: 660px; display: inline-block; overflow: hidden; text-indent: -9999px;}
+#content .scene.presentation ul.presentation li.s1 {background: transparent url(/img/s1.jpg) no-repeat top left;}
+#content .scene.presentation ul.presentation li.s2 {background: transparent url(/img/s2.jpg) no-repeat top left;}
+#content .scene.presentation ul.presentation li.s3 {background: transparent url(/img/s3.jpg) no-repeat top left;
+	position: relative;
+}
+#content .scene.presentation ul.presentation li.s3 {text-indent: 0;}
+#content .scene.presentation ul.presentation li video {background: blue; width: 500px; height: 280px; display: block;
+	position: absolute;
+	top: 280px; left: 349px;
+}
+
+/* FEEDBACK */
+#content .scene.feedback {position: absolute; top: 50px; left: 50%; margin-left: -300px; width: 600px; height: 400px; display: none; z-index: 20; opacity: 1; border-radius: 15px; background: #ffffff; border: 2px solid #000000; box-shadow: 2px 2px 4px #666666;}
+#content .scene.feedback form {padding: 30px;}
+#content .scene.feedback h2 {text-align: left; padding: 0 0 20px; font-size: 30px;}
+#content .scene.feedback form .field {padding: 0 0 10px;}
+#content .scene.feedback form label {display: block;}
+#content .scene.feedback form .field input {width: 530px; height: 25px;}
+#content .scene.feedback form .field textarea {width: 532px; height: 150px;}

@@ -1,0 +1,25 @@
+{
+	"modified_at":"1",
+    "files": [
+        {"file": "index.html"},
+        {"file": "js/lib/seg_tablet_include.js"},
+        {"file": "js/framework/bundles/full/seg_tablet.js"},
+        {"file": "js/framework/u-init.js"},
+        {"file": "js/lib/i-page.js"},
+        {"file": "js/lib/i-invalid.js"},
+		{"file": "css/lib/seg_tablet_include.css"},
+        {"file": "css/lib/s-page.css"},
+        {"file": "css/lib/s-content.css"},
+        {"file": "img/s1.jpg"},
+        {"file": "img/s2.jpg"},
+        {"file": "img/s3.jpg"},
+        {"file": "img/p1.jpg"},
+        {"file": "img/p2.jpg"},
+        {"file": "img/p3.jpg"},
+        {"file": "img/p4.jpg"},
+        {"file": "img/logo.png"},
+        {"file": "media/video/3_video.mp4"},
+        {"file": "media/video/15_video.mp4"},
+        {"file": "media/video/35_video.mp4"}
+    ]
+}
