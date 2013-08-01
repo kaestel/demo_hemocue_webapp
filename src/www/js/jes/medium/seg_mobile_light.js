@@ -1,11 +1,17 @@
+/*
+JES v0.7-medium Copyright 2013 http://whattheframework.org/jes/license
+wtf-js-merged @ 2013-04-23 11:36:14
+*/
 
-/*seg_tv.js*/
+/*u.js*/
 if(!u || !Util) {
 	var u, Util = u = new function() {}
 	u.version = 0.7;
 	u.bug = function() {}
 	u.stats = new function() {this.pageView = function(){};this.event = function(){};this.customVar = function(){}}
 }
+
+/*u-debug.js*/
 Util.debugURL = function(url) {
 	if(u.bug_force) {
 		return true;
@@ -87,6 +93,8 @@ Util.xInObject = function(object) {
 		u.bug(s);
 	}
 }
+
+/*u-animation.js*/
 Util.Animation = u.a = new function() {
 	this.support3d = function() {
 		if(this._support3d === undefined) {
@@ -205,6 +213,8 @@ Util.Animation = u.a = new function() {
 		node.offsetHeight;
 	}
 }
+
+/*u-cookie.js*/
 Util.saveCookie = function(name, value, options) {
 	expiry = false;
 	path = false;
@@ -289,6 +299,8 @@ Util.cookieReference = function(node) {
 	}
 	return ref;
 }
+
+/*u-dom.js*/
 Util.querySelector = u.qs = function(query, scope) {
 	scope = scope ? scope : document;
 	return scope.querySelector(query);
@@ -568,6 +580,8 @@ Util.hasFixedParent = u.hfp = function(node) {
 	}
 	return false;
 }
+
+/*u-events.js*/
 Util.Events = u.e = new function() {
 	this.event_pref = typeof(document.ontouchmove) == "undefined" ? "mouse" : "touch";
 	this.kill = function(event) {
@@ -738,6 +752,8 @@ Util.Events = u.e = new function() {
 		}
 	}
 }
+
+/*u-events-browser.js*/
 u.e.addDOMReadyEvent = function(action) {
 	if(document.readyState && document.addEventListener) {
 		if((document.readyState == "interactive" && !u.browser("ie")) || document.readyState == "complete" || document.readyState == "loaded") {
@@ -773,6 +789,8 @@ u.e.addScrollEvent = function(node, action) {
 }
 u.e.removeScrollEvent = function(node, action) {
 }
+
+/*u-form.js*/
 Util.Form = u.f = new function() {
 	this.customInit = {};
 	this.customValidate = {};
@@ -1433,6 +1451,7 @@ u.f.recurseName = function(object, indexes, value) {
 	}
 	return object;
 }
+/*u-geometry.js*/
 Util.absoluteX = u.absX = function(node) {
 	if(node.offsetParent) {
 		return node.offsetLeft + u.absX(node.offsetParent);
@@ -1487,6 +1506,8 @@ Util.pageScrollX = u.scrollX = function() {
 Util.pageScrollY = u.scrollY = function() {
 	return window.pageYOffset;
 }
+
+/*u-image.js*/
 Util.Image = u.i = new function() {
 	this.load = function(node, src) {
 		var image = new Image();
@@ -1523,6 +1544,8 @@ Util.Image = u.i = new function() {
 		u.xInObject(event);
 	}
 }
+
+/*u-math.js*/
 Util.random = function(min, max) {
 	return Math.round((Math.random() * (max - min)) + min);
 }
@@ -1532,6 +1555,7 @@ Util.numToHex = function(num) {
 Util.hexToNum = function(hex) {
 	return parseInt(hex,16);
 }
+/*u-request.js*/
 Util.createRequestObject = function() {
 	return new XMLHttpRequest();
 }
@@ -1724,6 +1748,8 @@ Util.validateResponse = function(response){
 		}
 	}
 }
+
+/*u-string.js*/
 Util.cutString = function(string, length) {
 	var matches, match, i;
 	if(string.length <= length) {
@@ -1780,6 +1806,7 @@ Util.stringOr = function(value, replacement) {
 		return replacement ? replacement : "";
 	}	
 }
+/*u-system.js*/
 Util.browser = function(model, version) {
 	var current_version = false;
 	if(model.match(/\bexplorer\b|\bie\b/i)) {
@@ -1849,6 +1876,8 @@ Util.windows = function() {
 Util.osx = function() {
 	return (navigator.userAgent.indexOf("OS X") >= 0) ? true : false;
 }
+
+/*u-timer.js*/
 Util.Timer = u.t = new function() {
 	this._timers = new Array();
 	this.setTimer = function(node, action, timeout) {
@@ -1906,6 +1935,8 @@ Util.Timer = u.t = new function() {
 		}
 	}
 }
+
+/*u-array-desktop_light.js*/
 if(!Array.prototype.unshift || new Array(1,2).unshift(0) != 3) {
 	Array.prototype.unshift = function(a) {
 		var b;
@@ -1934,6 +1965,8 @@ if(!Array.prototype.indexOf) {
 		return -1;
 	}
 }
+
+/*u-animation-desktop_light.js*/
 u.a.transition = function(node, transition) {
 	var duration = transition.match(/[0-9.]+[ms]+/g);
 	if(duration) {
@@ -2289,6 +2322,8 @@ u.a.setBgColor = function(node, color) {
 	node._bg_color = color;
 	node.offsetHeight;
 }
+
+/*u-dom-desktop_light.js*/
 Util.getComputedStyle = u.gcs = function(e, attribute) {
 	e.offsetHeight;
 	if(attribute == "opacity" && e._opacity != undefined) {
@@ -3454,6 +3489,8 @@ if(document.querySelector == undefined) {
 		return res;
 	}
 }
+
+/*u-events-desktop_light.js*/
 if(document.all) {
 	window.attachedEvents = {};
 	window.eventHandler = function(eid) {
@@ -3530,6 +3567,8 @@ if(document.all) {
 		}
 	}
 }
+
+/*u-geometry-desktop_light.js*/
 Util.actualWidth = u.actualW = function(node) {
 	var width = parseInt(u.gcs(node, "width"));
 	if(isNaN(width)) {
@@ -3598,6 +3637,8 @@ Util.pageScrollY = u.scrollY = function() {
 		return 0;
 	}
 }
+
+/*u-image-desktop_light.js*/
 u.i.load = function(e, src) {
 	var image = new Image();
 	image.e = e;
@@ -3612,6 +3653,8 @@ u.i.load = function(e, src) {
 	}
 	image.src = src;
 }
+
+/*u-json-desktop_light.js*/
 if (typeof JSON !== 'object') {
     JSON = {};
 }
@@ -3793,6 +3836,8 @@ if (typeof JSON !== 'object') {
         };
     }
 }());
+
+/*u-request-desktop_light.js*/
 Util.createRequestObject = function() {
 	var xmlhttp;
 	if(window.XMLHttpRequest) {
@@ -3836,6 +3881,8 @@ Util.createRequestObject = function() {
 		return false;
 	}
 }
+
+/*u-string-desktop_light.js*/
 if(String.prototype.trim == undefined) {
 	String.prototype.trim = function() {
 		return this.replace(/^\s+|\s+$/g, "");
@@ -3849,28 +3896,3 @@ if(String.prototype.substr == undefined || "ABC".substr(-1,1) == "A") {
 		return this.substring(start_index, length);
 	};
 }
-
-/*u-init.js*/
-Util.Objects = u.o = new Object();
-Util.init = function(scope) {
-	var i, node, nodes, object;
-	scope = scope && scope.nodeName ? scope : document;
-	nodes = u.ges("i\:([_a-zA-Z0-9])+");
-	for(i = 0; node = nodes[i]; i++) {
-		while((object = u.cv(node, "i"))) {
-			u.rc(node, "i:"+object);
-			if(object && typeof(u.o[object]) == "object") {
-				u.o[object].init(node);
-			}
-		}
-	}
-}
-
-/*i-invalid.js*/
-Util.Objects["validdevice"] = new function() {
-	this.init = function(e) {
-		e.innerHTML = "";
-		u.ae(e, "div", {"class":"error"}).innerHTML = "<p>Your browser is too old to display the site properly. Please try using Chrome or Safari.</p>"
-	}
-}
-window.onload = u.init;

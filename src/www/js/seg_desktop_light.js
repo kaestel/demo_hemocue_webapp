@@ -1,7 +1,8 @@
 
+/*seg_desktop_light.js*/
 if(!u || !Util) {
 	var u, Util = u = new function() {}
-	u.version = 7;
+	u.version = 0.7;
 	u.bug = function() {}
 	u.stats = new function() {this.pageView = function(){};this.event = function(){};this.customVar = function(){}}
 }
@@ -236,7 +237,7 @@ Util.deleteCookie = function(name, options) {
 }
 Util.saveNodeCookie = function(node, name, value) {
 	var ref = u.cookieReference(node);
-	var mem = JSON.parse(u.getCookie("wtf_mem"));
+	var mem = JSON.parse(u.getCookie("jes_mem"));
 	if(!mem) {
 		mem = {};
 	}
@@ -244,11 +245,11 @@ Util.saveNodeCookie = function(node, name, value) {
 		mem[ref] = {};
 	}
 	mem[ref][name] = (value !== false && value !== undefined) ? value : "";
-	u.saveCookie("wtf_mem", JSON.stringify(mem), {"path":"/"});
+	u.saveCookie("jes_mem", JSON.stringify(mem), {"path":"/"});
 }
 Util.getNodeCookie = function(node, name) {
 	var ref = u.cookieReference(node);
-	var mem = JSON.parse(u.getCookie("wtf_mem"));
+	var mem = JSON.parse(u.getCookie("jes_mem"));
 	if(mem && mem[ref]) {
 		if(name) {
 			return mem[ref][name] ? mem[ref][name] : "";
@@ -261,7 +262,7 @@ Util.getNodeCookie = function(node, name) {
 }
 Util.deleteNodeCookie = function(node, name) {
 	var ref = u.cookieReference(node);
-	var mem = JSON.parse(u.getCookie("wtf_mem"));
+	var mem = JSON.parse(u.getCookie("jes_mem"));
 	if(mem && mem[ref]) {
 		if(name) {
 			delete mem[ref][name];
@@ -270,7 +271,7 @@ Util.deleteNodeCookie = function(node, name) {
 			delete mem[ref];
 		}
 	}
-	u.saveCookie("wtf_mem", JSON.stringify(mem), {"path":"/"});
+	u.saveCookie("jes_mem", JSON.stringify(mem), {"path":"/"});
 }
 Util.cookieReference = function(node) {
 	var ref;
@@ -1366,9 +1367,7 @@ Util.Form = u.f = new function() {
 			this.value = value;
 			u.f.validate(this);
 		}
-		else {
-			return this.value;
-		}
+		return this.value;
 	}
 	this._value_radio = function(value) {
 		if(value) {
@@ -1847,7 +1846,7 @@ Util.Form = u.f = new function() {
 	}
 }
 u.f.convertNamesToJsonObject = function(params) {
- 	var indexes, root, indexes_exsists;
+ 	var indexes, root, indexes_exsists, param;
 	var object = new Object();
 	for(param in params) {
 	 	indexes_exsists = param.match(/\[/);
@@ -4467,6 +4466,7 @@ if(String.prototype.substr == undefined || "ABC".substr(-1,1) == "A") {
 	};
 }
 
+/*u-init.js*/
 Util.Objects = u.o = new Object();
 Util.init = function(scope) {
 	var i, node, nodes, object;
@@ -4482,6 +4482,7 @@ Util.init = function(scope) {
 	}
 }
 
+/*i-invalid.js*/
 Util.Objects["validdevice"] = new function() {
 	this.init = function(e) {
 		e.innerHTML = "";

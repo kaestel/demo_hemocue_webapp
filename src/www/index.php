@@ -1,8 +1,8 @@
 <?php
 	$body_class = "";
 	$page_title = "";
-	include("../php/shell_header.php");
 ?>
+<? include_once($_SERVER["LOCAL_PATH"]."/templates/shell.header.php") ?>
 
 <div class="scene login">
 	
@@ -30,16 +30,6 @@
 	<ul class="actions">
 		<li><a href="" class="button">Add more presentations</a></li>
 	</ul>
-
-	<video controls="autohide">
-		<source src="media/video/3_video.mp4" />
-	</video>
-	<video controls="autohide">
-		<source src="media/video/15_video.mp4" />
-	</video>
-	<video controls="autohide">
-		<source src="media/video/35_video.mp4" />
-	</video>
 
 	<ul class="list">
 		<li class="p1"><h3>WBC & WBC DIFF</h3></li>
@@ -129,14 +119,10 @@
 			<li class="s1">slide 1</li>
 			<li class="s2">slide 2</li>
 			<li class="s3">slide 3
-				<!--video controls="autohide">
-					<source src="/media/video/video.mp4" />
-					<source src="/media/video/video.ogv" />
+				<video controls="autohide">
+					<source src="/media/video/video_1.mp4" />
+					<source src="/media/video/video_1.ogv" />
 				</video>
-
-				<video width="500" height="280" controls="autohide">
-					<source src="/media/video/video_960x540.mp4"  
-				</video-->
 			</li>
 		</ul>
 	</div>
@@ -176,4 +162,4 @@
 	// alert(document.getElementsByTagName("script")[0].src);
 </script>
 
-<?php include("../php/shell_footer.php") ?>
+<? include_once($_SERVER["LOCAL_PATH"]."/templates/shell.footer.php") ?>

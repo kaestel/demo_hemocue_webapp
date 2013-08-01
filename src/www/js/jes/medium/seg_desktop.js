@@ -1,11 +1,17 @@
+/*
+JES v0.7-medium Copyright 2013 http://whattheframework.org/jes/license
+wtf-js-merged @ 2013-04-23 11:36:15
+*/
 
-/*seg_tablet.js*/
+/*u.js*/
 if(!u || !Util) {
 	var u, Util = u = new function() {}
 	u.version = 0.7;
 	u.bug = function() {}
 	u.stats = new function() {this.pageView = function(){};this.event = function(){};this.customVar = function(){}}
 }
+
+/*u-debug.js*/
 Util.debugURL = function(url) {
 	if(u.bug_force) {
 		return true;
@@ -87,6 +93,8 @@ Util.xInObject = function(object) {
 		u.bug(s);
 	}
 }
+
+/*u-animation.js*/
 Util.Animation = u.a = new function() {
 	this.support3d = function() {
 		if(this._support3d === undefined) {
@@ -205,6 +213,8 @@ Util.Animation = u.a = new function() {
 		node.offsetHeight;
 	}
 }
+
+/*u-cookie.js*/
 Util.saveCookie = function(name, value, options) {
 	expiry = false;
 	path = false;
@@ -289,36 +299,8 @@ Util.cookieReference = function(node) {
 	}
 	return ref;
 }
-Util.date = function(format, timestamp, months) {
-	var date = timestamp ? new Date(timestamp) : new Date();
-	if(isNaN(date.getTime())) {
-		if(!timestamp.match(/[A-Z]{3}\+[0-9]{4}/)) {
-			if(timestamp.match(/ \+[0-9]{4}/)) {
-				date = new Date(timestamp.replace(/ (\+[0-9]{4})/, " GMT$1"));
-			}
-		}
-		if(isNaN(date.getTime())) {
-			date = new Date();
-		}
-	}
-	var tokens = /d|j|m|n|F|Y|G|H|i|s/g;
-	var chars = new Object();
-	chars.j = date.getDate();
-	chars.d = (chars.j > 9 ? "" : "0") + chars.j;
-	chars.n = date.getMonth()+1;
-	chars.m = (chars.n > 9 ? "" : "0") + chars.n;
-	chars.F = months ? months[date.getMonth()] : "";
-	chars.Y = date.getFullYear();
-	chars.G = date.getHours();
-	chars.H = (chars.G > 9 ? "" : "0") + chars.G;
-	var i = date.getMinutes();
-	chars.i = (i > 9 ? "" : "0") + i;
-	var s = date.getSeconds();
-	chars.s = (s > 9 ? "" : "0") + s;
-	return format.replace(tokens, function (_) {
-		return _ in chars ? chars[_] : _.slice(1, _.length - 1);
-	});
-};
+
+/*u-dom.js*/
 Util.querySelector = u.qs = function(query, scope) {
 	scope = scope ? scope : document;
 	return scope.querySelector(query);
@@ -598,6 +580,8 @@ Util.hasFixedParent = u.hfp = function(node) {
 	}
 	return false;
 }
+
+/*u-events.js*/
 Util.Events = u.e = new function() {
 	this.event_pref = typeof(document.ontouchmove) == "undefined" ? "mouse" : "touch";
 	this.kill = function(event) {
@@ -768,6 +752,8 @@ Util.Events = u.e = new function() {
 		}
 	}
 }
+
+/*u-events-browser.js*/
 u.e.addDOMReadyEvent = function(action) {
 	if(document.readyState && document.addEventListener) {
 		if((document.readyState == "interactive" && !u.browser("ie")) || document.readyState == "complete" || document.readyState == "loaded") {
@@ -803,443 +789,8 @@ u.e.addScrollEvent = function(node, action) {
 }
 u.e.removeScrollEvent = function(node, action) {
 }
-u.e.resetDragEvents = function(node) {
-	this.removeEvent(node, "mousemove", this._pick);
-	this.removeEvent(node, "touchmove", this._pick);
-	this.removeEvent(node, "mousemove", this._drag);
-	this.removeEvent(node, "touchmove", this._drag);
-	this.removeEvent(node, "mouseup", this._drop);
-	this.removeEvent(node, "touchend", this._drop);
-	this.removeEvent(node, "mouseout", this._drop);
-	this.removeEvent(node, "mousemove", this._scrollStart);
-	this.removeEvent(node, "touchmove", this._scrollStart);
-	this.removeEvent(node, "mousemove", this._scrolling);
-	this.removeEvent(node, "touchmove", this._scrolling);
-	this.removeEvent(node, "mouseup", this._scrollEnd);
-	this.removeEvent(node, "touchend", this._scrollEnd);
-}
-u.e.overlap = function(node, boundaries, strict) {
-	if(boundaries.constructor.toString().match("Array")) {
-		var boundaries_start_x = Number(boundaries[0]);
-		var boundaries_start_y = Number(boundaries[1]);
-		var boundaries_end_x = Number(boundaries[2]);
-		var boundaries_end_y = Number(boundaries[3]);
-	}
-	else if(boundaries.constructor.toString().match("HTML")) {
-		var boundaries_start_x = u.absX(boundaries) - u.absX(node);
-		var boundaries_start_y =  u.absY(boundaries) - u.absY(node);
-		var boundaries_end_x = Number(boundaries_start_x + boundaries.offsetWidth);
-		var boundaries_end_y = Number(boundaries_start_y + boundaries.offsetHeight);
-	}
-	var node_start_x = Number(node._x);
-	var node_start_y = Number(node._y);
-	var node_end_x = Number(node_start_x + node.offsetWidth);
-	var node_end_y = Number(node_start_y + node.offsetHeight);
-	if(strict) {
-		if(node_start_x >= boundaries_start_x && node_start_y >= boundaries_start_y && node_end_x <= boundaries_end_x && node_end_y <= boundaries_end_y) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	} 
-	else if(node_end_x < boundaries_start_x || node_start_x > boundaries_end_x || node_end_y < boundaries_start_y || node_start_y > boundaries_end_y) {
-		return false;
-	}
-	return true;
-}
-u.e.drag = function(node, boundaries, settings) {
-	node.e_drag = true;
-	if(node.childNodes.length < 2 && node.innerHTML.trim() == "") {
-		node.innerHTML = "&nbsp;";
-	}
-	node.drag_strict = true;
-	node.drag_elastica = 0;
-	node.drag_dropout = true;
-	node.show_bounds = false;
-	if(typeof(settings) == "object") {
-		var argument;
-		for(argument in settings) {
-			switch(argument) {
-				case "strict"		: node.drag_strict		= settings[argument]; break;
-				case "elastica"		: node.drag_elastica	= Number(settings[argument]); break;
-				case "dropout"		: node.drag_dropout		= settings[argument]; break;
-				case "show_bounds"	: node.show_bounds		= settings[argument]; break; // NEEDS HELP
-			}
-		}
-	}
-	if((boundaries.constructor && boundaries.constructor.toString().match("Array")) || (boundaries.scopeName && boundaries.scopeName != "HTML")) {
-		node.start_drag_x = Number(boundaries[0]);
-		node.start_drag_y = Number(boundaries[1]);
-		node.end_drag_x = Number(boundaries[2]);
-		node.end_drag_y = Number(boundaries[3]);
-	}
-	else if((boundaries.constructor && boundaries.constructor.toString().match("HTML")) || (boundaries.scopeName && boundaries.scopeName == "HTML")) {
-		node.start_drag_x = u.absX(boundaries) - u.absX(node);
-		node.start_drag_y = u.absY(boundaries) - u.absY(node);
-		node.end_drag_x = node.start_drag_x + boundaries.offsetWidth;
-		node.end_drag_y = node.start_drag_y + boundaries.offsetHeight;
-	}
-	if(node.show_bounds) {
-		var debug_bounds = u.ae(document.body, "div", {"class":"debug_bounds"})
-		debug_bounds.style.position = "absolute";
-		debug_bounds.style.background = "red"
-		debug_bounds.style.left = (u.absX(node) + node.start_drag_x - 1) + "px";
-		debug_bounds.style.top = (u.absY(node) + node.start_drag_y - 1) + "px";
-		debug_bounds.style.width = (node.end_drag_x - node.start_drag_x) + "px";
-		debug_bounds.style.height = (node.end_drag_y - node.start_drag_y) + "px";
-		debug_bounds.style.border = "1px solid white";
-		debug_bounds.style.zIndex = 9999;
-		debug_bounds.style.opacity = .5;
-		if(document.readyState && document.readyState == "interactive") {
-			debug_bounds.innerHTML = "WARNING - injected on DOMLoaded"; 
-		}
-		u.bug("node: "+u.nodeId(node)+" in (" + u.absX(node) + "," + u.absY(node) + "), (" + (u.absX(node)+node.offsetWidth) + "," + (u.absY(node)+node.offsetHeight) +")");
-		u.bug("boundaries: (" + node.start_drag_x + "," + node.start_drag_y + "), (" + node.end_drag_x + ", " + node.end_drag_y + ")");
-	}
-	node._x = node._x ? node._x : 0;
-	node._y = node._y ? node._y : 0;
-	node.locked = ((node.end_drag_x - node.start_drag_x == node.offsetWidth) && (node.end_drag_y - node.start_drag_y == node.offsetHeight));
-	node.only_vertical = (!node.locked && node.end_drag_x - node.start_drag_x == node.offsetWidth);
-	node.only_horisontal = (!node.locked && node.end_drag_y - node.start_drag_y == node.offsetHeight);
-	u.e.addStartEvent(node, this._inputStart);
-}
-u.e._pick = function(event) {
-	var init_speed_x = Math.abs(this.start_event_x - u.eventX(event));
-	var init_speed_y = Math.abs(this.start_event_y - u.eventY(event));
-	if(init_speed_x > init_speed_y && this.only_horisontal || 
-	   init_speed_x < init_speed_y && this.only_vertical ||
-	   !this.only_vertical && !this.only_horisontal) {
-		u.e.resetNestedEvents(this);
-	    u.e.kill(event);
-		this.move_timestamp = event.timeStamp;
-		this.move_last_x = this._x;
-		this.move_last_y = this._y;
-		if(u.hasFixedParent(this)) {
-			this.start_input_x = u.eventX(event) - this._x - u.scrollX(); 
-			this.start_input_y = u.eventY(event) - this._y - u.scrollY();
-		}
-		else {
-			this.start_input_x = u.eventX(event) - this._x; 
-			this.start_input_y = u.eventY(event) - this._y;
-		}
-		this.current_xps = 0;
-		this.current_yps = 0;
-		u.a.transition(this, "none");
-		if(typeof(this.picked) == "function") {
-			this.picked(event);
-		}
-		u.e.addMoveEvent(this, u.e._drag);
-		u.e.addEndEvent(this, u.e._drop);
-	}
-	if(this.drag_dropout && u.e.event_pref == "mouse") {
-		u.e.addEvent(this, "mouseout", u.e._drop);
-	}
-}
-u.e._drag = function(event) {
-	if(u.hasFixedParent(this)) {
-		this.current_x = u.eventX(event) - this.start_input_x - u.scrollX();
-		this.current_y = u.eventY(event) - this.start_input_y - u.scrollY();
-	}
-	else {
-		this.current_x = u.eventX(event) - this.start_input_x;
-		this.current_y = u.eventY(event) - this.start_input_y;
-	}
-	this.current_xps = Math.round(((this.current_x - this.move_last_x) / (event.timeStamp - this.move_timestamp)) * 1000);
-	this.current_yps = Math.round(((this.current_y - this.move_last_y) / (event.timeStamp - this.move_timestamp)) * 1000);
-	this.move_timestamp = event.timeStamp;
-	this.move_last_x = this.current_x;
-	this.move_last_y = this.current_y;
-	if(this.only_vertical) {
-		this._y = this.current_y;
-	}
-	else if(this.only_horisontal) {
-		this._x = this.current_x;
-	}
-	else if(!this.locked) {
-		this._x = this.current_x;
-		this._y = this.current_y;
-	}
-	if(this.e_swipe) {
-		if(this.current_xps && (Math.abs(this.current_xps) > Math.abs(this.current_yps) || this.only_horisontal)) {
-			if(this.current_xps < 0) {
-				this.swiped = "left";
-			}
-			else {
-				this.swiped = "right";
-			}
-		}
-		else if(this.current_yps && (Math.abs(this.current_xps) < Math.abs(this.current_yps) || this.only_vertical)) {
-			if(this.current_yps < 0) {
-				this.swiped = "up";
-			}
-			else {
-				this.swiped = "down";
-			}
-		}
-	}
-	if(!this.locked) {
-		if(u.e.overlap(this, [this.start_drag_x, this.start_drag_y, this.end_drag_x, this.end_drag_y], true)) {
-			u.a.translate(this, this._x, this._y);
-		}
-		else if(this.drag_elastica) {
-			this.swiped = false;
-			this.current_xps = 0;
-			this.current_yps = 0;
-			var offset = false;
-			if(!this.only_vertical && this._x < this.start_drag_x) {
-				offset = this._x < this.start_drag_x - this.drag_elastica ? - this.drag_elastica : this._x - this.start_drag_x;
-				this._x = this.start_drag_x;
-				this.current_x = this._x + offset + (Math.round(Math.pow(offset, 2)/this.drag_elastica));
-			}
-			else if(!this.only_vertical && this._x + this.offsetWidth > this.end_drag_x) {
-				offset = this._x + this.offsetWidth > this.end_drag_x + this.drag_elastica ? this.drag_elastica : this._x + this.offsetWidth - this.end_drag_x;
-				this._x = this.end_drag_x - this.offsetWidth;
-				this.current_x = this._x + offset - (Math.round(Math.pow(offset, 2)/this.drag_elastica));
-			}
-			else {
-				this.current_x = this._x;
-			}
-			if(!this.only_horisontal && this._y < this.start_drag_y) {
-				offset = this._y < this.start_drag_y - this.drag_elastica ? - this.drag_elastica : this._y - this.start_drag_y;
-				this._y = this.start_drag_y;
-				this.current_y = this._y + offset + (Math.round(Math.pow(offset, 2)/this.drag_elastica));
-			}
-			else if(!this.horisontal && this._y + this.offsetHeight > this.end_drag_y) {
-				offset = (this._y + this.offsetHeight > this.end_drag_y + this.drag_elastica) ? this.drag_elastica : (this._y + this.offsetHeight - this.end_drag_y);
-				this._y = this.end_drag_y - this.offsetHeight;
-				this.current_y = this._y + offset - (Math.round(Math.pow(offset, 2)/this.drag_elastica));
-			}
-			else {
-				this.current_y = this._y;
-			}
-			if(offset) {
-				u.a.translate(this, this.current_x, this.current_y);
-			}
-		}
-		else {
-			this.swiped = false;
-			this.current_xps = 0;
-			this.current_yps = 0;
-			if(this._x < this.start_drag_x) {
-				this._x = this.start_drag_x;
-			}
-			else if(this._x + this.offsetWidth > this.end_drag_x) {
-				this._x = this.end_drag_x - this.offsetWidth;
-			}
-			if(this._y < this.start_drag_y) {
-				this._y = this.start_drag_y;
-			}
-			else if(this._y + this.offsetHeight > this.end_drag_y) { 
-				this._y = this.end_drag_y - this.offsetHeight;
-			}
-			u.a.translate(this, this._x, this._y);
-		}
-	}
-	if(typeof(this.moved) == "function") {
-		this.moved(event);
-	}
-}
-u.e._drop = function(event) {
-	u.e.resetEvents(this);
-	if(this.e_swipe && this.swiped) {
-		if(this.swiped == "left" && typeof(this.swipedLeft) == "function") {
-			this.swipedLeft(event);
-		}
-		else if(this.swiped == "right" && typeof(this.swipedRight) == "function") {
-			this.swipedRight(event);
-		}
-		else if(this.swiped == "down" && typeof(this.swipedDown) == "function") {
-			this.swipedDown(event);
-		}
-		else if(this.swiped == "up" && typeof(this.swipedUp) == "function") {
-			this.swipedUp(event);
-		}
-	}
-	else if(!this.drag_strict && !this.locked) {
-		this.current_x = this._x + (this.current_xps/2);
-		this.current_y = this._y + (this.current_yps/2);
-		if(this.only_vertical || this.current_x < this.start_drag_x) {
-			this.current_x = this.start_drag_x;
-		}
-		else if(this.current_x + this.offsetWidth > this.end_drag_x) {
-			this.current_x = this.end_drag_x - this.offsetWidth;
-		}
-		if(this.only_horisontal || this.current_y < this.start_drag_y) {
-			this.current_y = this.start_drag_y;
-		}
-		else if(this.current_y + this.offsetHeight > this.end_drag_y) {
-			this.current_y = this.end_drag_y - this.offsetHeight;
-		}
-		this.transitioned = function() {
-			this.transitioned = null;
-			u.a.transition(this, "none");
-			if(typeof(this.projected) == "function") {
-				this.projected(event);
-			}
-		}
-		if(this.current_xps || this.current_yps) {
-			u.a.transition(this, "all 1s cubic-bezier(0,0,0.25,1)");
-		}
-		else {
-			u.a.transition(this, "none");
-		}
-		u.a.translate(this, this.current_x, this.current_y);
-	}
-	if(typeof(this.dropped) == "function") {
-		this.dropped(event);
-	}
-}
-u.e.swipe = function(node, boundaries, settings) {
-	node.e_swipe = true;
-	u.e.drag(node, boundaries, settings);
-}
-u.e.scroll = function(e) {
-	e.e_scroll = true;
-	e._x = e._x ? e._x : 0;
-	e._y = e._y ? e._y : 0;
-	u.e.addStartEvent(e, this._inputStart);
-}
-u.e._scrollStart = function(event) {
-	u.e.resetNestedEvents(this);
-	this.move_timestamp = new Date().getTime();
-	this.current_xps = 0;
-	this.current_yps = 0;
-	this.start_input_x = u.eventX(event) - this._x;
-	this.start_input_y = u.eventY(event) - this._y;
-	u.a.transition(this, "none");
-	if(typeof(this.picked) == "function") {
-		this.picked(event);
-	}
-	u.e.addMoveEvent(this, u.e._scrolling);
-	u.e.addEndEvent(this, u.e._scrollEnd);
-}
-u.e._scrolling = function(event) {
-	this.new_move_timestamp = new Date().getTime();
-	this.current_x = u.eventX(event) - this.start_input_x;
-	this.current_y = u.eventY(event) - this.start_input_y;
-	this.current_xps = Math.round(((this.current_x - this._x) / (this.new_move_timestamp - this.move_timestamp)) * 1000);
-	this.current_yps = Math.round(((this.current_y - this._y) / (this.new_move_timestamp - this.move_timestamp)) * 1000);
-	this.move_timestamp = this.new_move_timestamp;
-	if(u.scrollY() > 0 && -(this.current_y) + u.scrollY() > 0) {
-		u.e.kill(event);
-		window.scrollTo(0, -(this.current_y) + u.scrollY());
-	}
-	if(typeof(this.moved) == "function") {
-		this.moved(event);
-	}
-}
-u.e._scrollEnd = function(event) {
-	u.e.resetEvents(this);
-	if(typeof(this.dropped) == "function") {
-		this.dropped(event);
-	}
-}
-u.e.beforeScroll = function(node) {
-	node.e_beforescroll = true;
-	u.e.addStartEvent(node, this._inputStartDrag);
-}
-u.e._inputStartDrag = function() {
-	u.e.addMoveEvent(this, u.e._beforeScroll);
-}
-u.e._beforeScroll = function(event) {
-	u.e.removeMoveEvent(this, u.e._beforeScroll);
-	if(typeof(this.picked) == "function") {
-		this.picked(event);
-	}
-}
-Util.flashDetection = function(version) {
-	var flash_version = false;
-	var flash = false;
-	if(navigator.plugins && navigator.plugins["Shockwave Flash"] && navigator.plugins["Shockwave Flash"].description && navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) {
-		flash = true;
-		var Pversion = navigator.plugins["Shockwave Flash"].description.match(/\b([\d]+)\b/);
-		if(Pversion.length > 1 && !isNaN(Pversion[1])) {
-			flash_version = Pversion[1];
-		}
-	}
-	else if(window.ActiveXObject) {
-		try {
-			var AXflash, AXversion;
-			AXflash = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-			if(AXflash) {
-				flash = true;
-				AXversion = AXflash.GetVariable("$version").match(/\b([\d]+)\b/);
-				if(AXversion.length > 1 && !isNaN(AXversion[1])) {
-					flash_version = AXversion[1];
-				}
-			}
-		}
-		catch(exception) {}
-	}
-	if(flash_version || (flash && !version)) {
-		if(!version) {
-			return true;
-		}
-		else {
-			if(!isNaN(version)) {
-				return flash_version == version;
-			}
-			else {
-				return eval(flash_version + version);
-			}
-		}
-	}
-	else {
-		return false;
-	}
-}
-Util.flash = function(node, url, settings) {
-	var width = "100%";
-	var height = "100%";
-	var background = "transparent";
-	var id = "flash_" + new Date().getHours() + "_" + new Date().getMinutes() + "_" + new Date().getMilliseconds();
-	var allowScriptAccess = "always";
-	var menu = "false";
-	var scale = "showall";
-	var wmode = "transparent";
-	if(typeof(settings) == "object") {
-		var argument;
-		for(argument in settings) {
-			switch(argument) {
-				case "id"					: id				= settings[argument]; break;
-				case "width"				: width				= Number(settings[argument]); break;
-				case "height"				: height			= Number(settings[argument]); break;
-				case "background"			: background		= settings[argument]; break;
-				case "allowScriptAccess"	: allowScriptAccess = settings[argument]; break;
-				case "menu"					: menu				= settings[argument]; break;
-				case "scale"				: scale				= settings[argument]; break;
-				case "wmode"				: wmode				= settings[argument]; break;
-			}
-		}
-	}
-	html = '<object';
-	html += ' id="'+id+'"';
-	html += ' width="'+width+'"';
-	html += ' height="'+height+'"';
-	if(u.browser("explorer")) {
-		html += ' classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"';
-	}
-	else {
-		html += ' type="application/x-shockwave-flash"';
-		html += ' data="'+url+'"';
-	}
-	html += '>';
-	html += '<param name="allowScriptAccess" value="'+allowScriptAccess+'" />';
-	html += '<param name="movie" value="'+url+'" />';
-	html += '<param name="quality" value="high" />';
-	html += '<param name="bgcolor" value="'+background+'" />';
-	html += '<param name="play" value="true" />';
-	html += '<param name="wmode" value="'+wmode+'" />';
-	html += '<param name="menu" value="'+menu+'" />';
-	html += '<param name="scale" value="'+scale+'" />';
-	html += '</object>';
-	var temp_node = document.createElement("div");
-	temp_node.innerHTML = html;
-	node.insertBefore(temp_node.firstChild, node.firstChild);
-	var flash_object = u.qs("#"+id, node);
-	return flash_object;
-}
+
+/*u-form.js*/
 Util.Form = u.f = new function() {
 	this.customInit = {};
 	this.customValidate = {};
@@ -1900,6 +1451,7 @@ u.f.recurseName = function(object, indexes, value) {
 	}
 	return object;
 }
+/*u-geometry.js*/
 Util.absoluteX = u.absX = function(node) {
 	if(node.offsetParent) {
 		return node.offsetLeft + u.absX(node.offsetParent);
@@ -1954,73 +1506,8 @@ Util.pageScrollX = u.scrollX = function() {
 Util.pageScrollY = u.scrollY = function() {
 	return window.pageYOffset;
 }
-Util.Hash = u.h = new function() {
-	this.catchEvent = function(callback, node) {
-		this.node = node;
-		this.node.callback = callback;
-		hashChanged = function(event) {
-			u.h.node.callback();
-		}
-		if("onhashchange" in window && !u.browser("explorer", "<=7")) {
-			window.onhashchange = hashChanged;
-		}
-		else {
-			u.current_hash = window.location.hash;
-			window.onhashchange = hashChanged;
-			setInterval(
-				function() {
-					if(window.location.hash !== u.current_hash) {
-						u.current_hash = window.location.hash;
-						window.onhashchange();
-					}
-				}, 200
-			);
-		}
-	}
-	this.cleanHash = function(string, levels) {
-		if(!levels) {
-			return string.replace(location.protocol+"//"+document.domain, "");
-		}
-		else {
-			var i, return_string = "";
-			var hash = string.replace(location.protocol+"//"+document.domain, "").split("/");
-			for(i = 1; i <= levels; i++) {
-				return_string += "/" + hash[i];
-			}
-			return return_string;
-		}
-	}
-	this.getCleanUrl = function(string, levels) {
-		string = string.split("#")[0].replace(location.protocol+"//"+document.domain, "");
-		if(!levels) {
-			return string;
-		}
-		else {
-			var i, return_string = "";
-			var hash = string.split("/");
-			levels = levels > hash.length-1 ? hash.length-1 : levels;
-			for(i = 1; i <= levels; i++) {
-				return_string += "/" + hash[i];
-			}
-			return return_string;
-		}
-	}
-	this.getCleanHash = function(string, levels) {
-		string = string.replace("#", "");
-		if(!levels) {
-			return string;
-		}
-		else {
-			var i, return_string = "";
-			var hash = string.split("/");
-			levels = levels > hash.length-1 ? hash.length-1 : levels;
-			for(i = 1; i <= levels; i++) {
-				return_string += "/" + hash[i];
-			}
-			return return_string;
-		}
-	}
-}
+
+/*u-image.js*/
 Util.Image = u.i = new function() {
 	this.load = function(node, src) {
 		var image = new Image();
@@ -2057,6 +1544,8 @@ Util.Image = u.i = new function() {
 		u.xInObject(event);
 	}
 }
+
+/*u-math.js*/
 Util.random = function(min, max) {
 	return Math.round((Math.random() * (max - min)) + min);
 }
@@ -2066,77 +1555,7 @@ Util.numToHex = function(num) {
 Util.hexToNum = function(hex) {
 	return parseInt(hex,16);
 }
-Util.period = function(format, time) {
-	var seconds = 0;
-	if(typeof(time) == "object") {
-		var argument;
-		for(argument in time) {
-			switch(argument) {
-				case "seconds"		: seconds = time[argument]; break;
-				case "milliseconds" : seconds = Number(time[argument])/1000; break;
-				case "minutes"		: seconds = Number(time[argument])*60; break;
-				case "hours"		: seconds = Number(time[argument])*60*60 ; break;
-				case "days"			: seconds = Number(time[argument])*60*60*24; break;
-				case "months"		: seconds = Number(time[argument])*60*60*24*(365/12); break;
-				case "years"		: seconds = Number(time[argument])*60*60*24*365; break;
-			}
-		}
-	}
-	var tokens = /y|n|o|O|w|W|c|d|e|D|g|h|H|l|m|M|r|s|S|t|T|u|U/g;
-	var chars = new Object();
-	chars.y = 0; // TODO
-	chars.n = 0; // TODO 
-	chars.o = (chars.n > 9 ? "" : "0") + chars.n; // TODO
-	chars.O = 0; // TODO
-	chars.w = 0; // TODO
-	chars.W = 0; // TODO
-	chars.c = 0; // TODO
-	chars.d = 0; // TODO
-	chars.e = 0; // TODO
-	chars.D = Math.floor(((seconds/60)/60)/24);
-	chars.g = Math.floor((seconds/60)/60)%24;
-	chars.h = (chars.g > 9 ? "" : "0") + chars.g;
-	chars.H = Math.floor((seconds/60)/60);
-	chars.l = Math.floor(seconds/60)%60;
-	chars.m = (chars.l > 9 ? "" : "0") + chars.l;
-	chars.M = Math.floor(seconds/60);
-	chars.r = Math.floor(seconds)%60;
-	chars.s = (chars.r > 9 ? "" : "0") + chars.r;
-	chars.S = Math.floor(seconds);
-	chars.t = Math.round((seconds%1)*10);
-	chars.T = Math.round((seconds%1)*100);
-	chars.T = (chars.T > 9 ? "": "0") + Math.round(chars.T);
-	chars.u = Math.round((seconds%1)*1000);
-	chars.u = (chars.u > 9 ? chars.u > 99 ? "" : "0" : "00") + Math.round(chars.u);
-	chars.U = Math.round(seconds*1000);
-	return format.replace(tokens, function (_) {
-		return _ in chars ? chars[_] : _.slice(1, _.length - 1);
-	});
-};
-Util.popup = function(url, settings) {
-	var width = "330";
-	var height = "150";
-	var name = "popup" + new Date().getHours() + "_" + new Date().getMinutes() + "_" + new Date().getMilliseconds();
-	var extra = "";
-	if(typeof(settings) == "object") {
-		var argument;
-		for(argument in settings) {
-			switch(argument) {
-				case "name"		: name		= settings[argument]; break;
-				case "width"	: width		= Number(settings[argument]); break;
-				case "height"	: height	= Number(settings[argument]); break;
-				case "extra"	: extra		= settings[argument]; break;
-			}
-		}
-	}
-	var p;
-	p = "width=" + width + ",height=" + height;
-	p += ",left=" + (screen.width-width)/2;
-	p += ",top=" + ((screen.height-height)-20)/2;
-	p += extra ? "," + extra : ",scrollbars";
-	document[name] = window.open(url, name, p);
-	return document[name];
-}
+/*u-request.js*/
 Util.createRequestObject = function() {
 	return new XMLHttpRequest();
 }
@@ -2329,6 +1748,8 @@ Util.validateResponse = function(response){
 		}
 	}
 }
+
+/*u-string.js*/
 Util.cutString = function(string, length) {
 	var matches, match, i;
 	if(string.length <= length) {
@@ -2385,6 +1806,7 @@ Util.stringOr = function(value, replacement) {
 		return replacement ? replacement : "";
 	}	
 }
+/*u-system.js*/
 Util.browser = function(model, version) {
 	var current_version = false;
 	if(model.match(/\bexplorer\b|\bie\b/i)) {
@@ -2454,6 +1876,8 @@ Util.windows = function() {
 Util.osx = function() {
 	return (navigator.userAgent.indexOf("OS X") >= 0) ? true : false;
 }
+
+/*u-timer.js*/
 Util.Timer = u.t = new function() {
 	this._timers = new Array();
 	this.setTimer = function(node, action, timeout) {
@@ -2511,218 +1935,3 @@ Util.Timer = u.t = new function() {
 		}
 	}
 }
-Util.getVar = function(param, url) {
-	var string = url ? url.split("#")[0] : location.search;
-	var regexp = new RegExp("[\&\?\b]{1}"+param+"\=([^\&\b]+)");
-	var match = string.match(regexp);
-	if(match && match.length > 1) {
-		return match[1];
-	}
-	else {
-		return "";
-	}
-}
-
-/*u-init.js*/
-Util.Objects = u.o = new Object();
-Util.init = function(scope) {
-	var i, node, nodes, object;
-	scope = scope && scope.nodeName ? scope : document;
-	nodes = u.ges("i\:([_a-zA-Z0-9])+");
-	for(i = 0; node = nodes[i]; i++) {
-		while((object = u.cv(node, "i"))) {
-			u.rc(node, "i:"+object);
-			if(object && typeof(u.o[object]) == "object") {
-				u.o[object].init(node);
-			}
-		}
-	}
-}
-
-/*i-page.js*/
-Util.Objects["page"] = new function() {
-	this.init = function(page) {
-		page.hN = u.qs("#header", page);
-		page.hN.page = page;
-		page.cN = u.qs("#content", page);
-		page.cN.page = page;
-		page.nN = u.qs("#navigation", page);
-		if(page.nN) {
-			page.nN = page.hN.appendChild(page.nN);
-			u.as(page.nN, "display", "block");
-			page.nN.page = page;
-		}
-		page.fN = u.qs("#footer", page);
-		page.fN.page = page;
-		if(navigator.standalone === true) {
-			u.ac(document.body, "app");
-		}
-		u.e.drag(page, page);
-		page._login = u.qs(".scene.login", page);
-		page._login.page = page;
-		page._presentation = u.qs(".scene.presentation", page);
-		page._presentation.page = page;
-		page._add = u.qs(".scene.add", page);
-		page._add.page = page;
-		page._list = u.qs(".scene.list", page);
-		page._list.page = page;
-		page._feedback = u.qs(".scene.feedback", page);
-		page._feedback.page = page;
-		u.ac(page, "ready");
-		page.showList = function() {
-			u.as(this._list, "display", "block");
-			u.a.transition(this._list, "all 0.5s ease-in");
-			u.a.setOpacity(this._list, 1);
-			var presentations = u.qsa(".list li", this._list);
-			for(i = 0; pres = presentations[i]; i++) {
-				pres.page = this;
-				u.e.click(pres);
-				pres.clicked = function() {
-					this.page._list.transitioned = function() {
-						this.transitioned = null;
-						u.as(this.page._list, "display", "none");
-						this.page.showPresentation();
-					}
-					u.a.transition(this.page._list, "all 0.5s ease-in");
-					u.a.setOpacity(this.page._list, 0);
-				}
-			}
-			var add = u.qs(".actions li", this._list);
-			add.page = page;
-			u.ce(add);
-			add.clicked = function(event) {
-				u.e.kill(event);
-				this.page._list.transitioned = function() {
-					this.transitioned = null;
-					u.as(this.page._list, "display", "none");
-					this.page.showAdd();
-				}
-				u.a.transition(this.page._list, "all 0.5s ease-in");
-				u.a.setOpacity(this.page._list, 0);
-			}
-		}
-		page.showPresentation = function() {
-			u.as(this._presentation, "display", "block");
-			u.a.transition(this._presentation, "all 0.5s ease-in");
-			u.a.setOpacity(this._presentation, 1);
-			u.ac(document.body, "pres");
-			var close = u.qs(".close", this._presentation);
-			close.page = page;
-			u.ce(close);
-			close.clicked = function(event) {
-				u.e.kill(event);
-				this.page._presentation.transitioned = function() {
-					this.transitioned = null;
-					u.as(this.page._presentation, "display", "none");
-					u.rc(document.body, "pres");
-					this.page.showList();
-				}
-				u.a.transition(this.page._presentation, "all 0.5s ease-in");
-				u.a.setOpacity(this.page._presentation, 0);
-			}
-			var feedback = u.qs(".feedback", this._presentation);
-			feedback.page = page;
-			u.ce(feedback);
-			feedback.clicked = function(event) {
-				u.a.transition(this.page._feedback, "none");
-				u.a.translate(this.page._feedback, 0, -1000);
-				u.as(this.page._feedback, "display", "block");
-				u.a.transition(this.page._feedback, "all 0.5s ease-in");
-				u.a.translate(this.page._feedback, 0, 0);
-				var actions = u.qsa(".actions li", this.page._feedback);
-				for(i = 0; action = actions[i]; i++) {
-					action.page = this.page;
-					u.e.click(action);
-					action.clicked = function() {
-						this.page._feedback.transitioned = function() {
-							this.transitioned = null;
-							u.as(this.page._feedback, "display", "none");
-						}
-						u.a.transition(this.page._feedback, "all 0.5s ease-in");
-						u.a.translate(this.page._feedback, 0, -1000);
-					}
-				}
-			}
-			var pres = u.qs("ul.presentation");
-			u.e.swipe(pres, pres);
-			u.a.translate(pres, 0, 0);
-			pres.i = 0;
-			pres.picked = function() {
-				u.a.transition(this, "none");
-			}
-			pres.moved = function() {
-				u.a.translate(this, this.current_x, 0);
-			}
-			pres.dropped = function() {}
-			pres.swipedLeft = function() {
-				if(this.i < 2) {
-					this.i++;
-				}
-				u.a.transition(this, "all 0.3s ease-out");
-				u.a.translate(this, -(1024*this.i), 0);
-			}
-			pres.swipedRight = function() {
-				if(this.i > 0) {
-					this.i--;
-				}
-				u.a.transition(this, "all 0.3s ease-out");
-				u.a.translate(this, -(1024*this.i), 0);
-			}
-		}
-		page.showAdd = function() {
-			u.as(this._add, "display", "block");
-			u.a.transition(this._add, "all 0.5s ease-in");
-			u.a.setOpacity(this._add, 1);
-			var actions = u.qsa(".list li .button", this._add);
-			for(i = 0; action = actions[i]; i++) {
-				action.page = this;
-				u.ce(action);
-				action.clicked = function() {
-					if(u.tc(this, "add", "remove").match("add")) {
-						this.innerHTML = "Add";
-						u.rc(this.parentNode.parentNode.parentNode, "added");
-					}
-					else {
-						this.innerHTML = "Remove";
-						u.ac(this.parentNode.parentNode.parentNode, "added");
-					}
-				}
-			}
-			var done = u.qs(".actions li", this._add);
-			done.page = page;
-			u.ce(done);
-			done.clicked = function(event) {
-				u.e.kill(event);
-				this.page._add.transitioned = function() {
-					this.transitioned = null;
-					u.as(this.page._add, "display", "none");
-					this.page.showList();
-				}
-				u.a.transition(this.page._add, "all 0.5s ease-in");
-				u.a.setOpacity(this.page._add, 0);
-			}
-		}
-		if(!navigator.onLine) {
-			page.showList();
-		}
-		else {
-			page._login._submit = u.qs(".actions li");
-			page._login._submit.page = page;
-			u.e.click(page._login._submit);
-			page._login._submit.clicked = function(event) {
-				u.e.kill(event);
-				this.page._login.transitioned = function() {
-					this.transitioned = null;
-					u.as(this.page._login, "display", "none");
-					this.page.showList();
-				}
-				u.a.transition(this.page._login, "all 0.5s ease-in");
-				u.a.setOpacity(this.page._login, 0);
-			}
-			u.as(page._login, "display", "block");
-			u.a.transition(page._login, "all 0.5s ease-in");
-			u.a.setOpacity(page._login, 1);
-		}
-	}
-}
-window.onload = u.init;

@@ -1,11 +1,17 @@
+/*
+JES v0.7-full Copyright 2013 http://whattheframework.org/jes/license
+wtf-js-merged @ 2013-04-23 11:36:04
+*/
 
-/*seg_tablet.js*/
+/*u.js*/
 if(!u || !Util) {
 	var u, Util = u = new function() {}
 	u.version = 0.7;
 	u.bug = function() {}
 	u.stats = new function() {this.pageView = function(){};this.event = function(){};this.customVar = function(){}}
 }
+
+/*u-debug.js*/
 Util.debugURL = function(url) {
 	if(u.bug_force) {
 		return true;
@@ -87,6 +93,8 @@ Util.xInObject = function(object) {
 		u.bug(s);
 	}
 }
+
+/*u-animation.js*/
 Util.Animation = u.a = new function() {
 	this.support3d = function() {
 		if(this._support3d === undefined) {
@@ -205,6 +213,8 @@ Util.Animation = u.a = new function() {
 		node.offsetHeight;
 	}
 }
+
+/*u-cookie.js*/
 Util.saveCookie = function(name, value, options) {
 	expiry = false;
 	path = false;
@@ -289,6 +299,8 @@ Util.cookieReference = function(node) {
 	}
 	return ref;
 }
+
+/*u-date.js*/
 Util.date = function(format, timestamp, months) {
 	var date = timestamp ? new Date(timestamp) : new Date();
 	if(isNaN(date.getTime())) {
@@ -319,6 +331,8 @@ Util.date = function(format, timestamp, months) {
 		return _ in chars ? chars[_] : _.slice(1, _.length - 1);
 	});
 };
+
+/*u-dom.js*/
 Util.querySelector = u.qs = function(query, scope) {
 	scope = scope ? scope : document;
 	return scope.querySelector(query);
@@ -598,6 +612,8 @@ Util.hasFixedParent = u.hfp = function(node) {
 	}
 	return false;
 }
+
+/*u-events.js*/
 Util.Events = u.e = new function() {
 	this.event_pref = typeof(document.ontouchmove) == "undefined" ? "mouse" : "touch";
 	this.kill = function(event) {
@@ -768,6 +784,8 @@ Util.Events = u.e = new function() {
 		}
 	}
 }
+
+/*u-events-browser.js*/
 u.e.addDOMReadyEvent = function(action) {
 	if(document.readyState && document.addEventListener) {
 		if((document.readyState == "interactive" && !u.browser("ie")) || document.readyState == "complete" || document.readyState == "loaded") {
@@ -803,6 +821,8 @@ u.e.addScrollEvent = function(node, action) {
 }
 u.e.removeScrollEvent = function(node, action) {
 }
+
+/*u-events-movements.js*/
 u.e.resetDragEvents = function(node) {
 	this.removeEvent(node, "mousemove", this._pick);
 	this.removeEvent(node, "touchmove", this._pick);
@@ -1148,6 +1168,8 @@ u.e._beforeScroll = function(event) {
 		this.picked(event);
 	}
 }
+
+/*u-flash.js*/
 Util.flashDetection = function(version) {
 	var flash_version = false;
 	var flash = false;
@@ -1240,6 +1262,8 @@ Util.flash = function(node, url, settings) {
 	var flash_object = u.qs("#"+id, node);
 	return flash_object;
 }
+
+/*u-form.js*/
 Util.Form = u.f = new function() {
 	this.customInit = {};
 	this.customValidate = {};
@@ -1900,6 +1924,7 @@ u.f.recurseName = function(object, indexes, value) {
 	}
 	return object;
 }
+/*u-geometry.js*/
 Util.absoluteX = u.absX = function(node) {
 	if(node.offsetParent) {
 		return node.offsetLeft + u.absX(node.offsetParent);
@@ -1954,6 +1979,8 @@ Util.pageScrollX = u.scrollX = function() {
 Util.pageScrollY = u.scrollY = function() {
 	return window.pageYOffset;
 }
+
+/*u-hash.js*/
 Util.Hash = u.h = new function() {
 	this.catchEvent = function(callback, node) {
 		this.node = node;
@@ -2021,6 +2048,8 @@ Util.Hash = u.h = new function() {
 		}
 	}
 }
+
+/*u-image.js*/
 Util.Image = u.i = new function() {
 	this.load = function(node, src) {
 		var image = new Image();
@@ -2057,6 +2086,8 @@ Util.Image = u.i = new function() {
 		u.xInObject(event);
 	}
 }
+
+/*u-math.js*/
 Util.random = function(min, max) {
 	return Math.round((Math.random() * (max - min)) + min);
 }
@@ -2066,6 +2097,7 @@ Util.numToHex = function(num) {
 Util.hexToNum = function(hex) {
 	return parseInt(hex,16);
 }
+/*u-period.js*/
 Util.period = function(format, time) {
 	var seconds = 0;
 	if(typeof(time) == "object") {
@@ -2113,6 +2145,8 @@ Util.period = function(format, time) {
 		return _ in chars ? chars[_] : _.slice(1, _.length - 1);
 	});
 };
+
+/*u-popup.js*/
 Util.popup = function(url, settings) {
 	var width = "330";
 	var height = "150";
@@ -2137,6 +2171,8 @@ Util.popup = function(url, settings) {
 	document[name] = window.open(url, name, p);
 	return document[name];
 }
+
+/*u-request.js*/
 Util.createRequestObject = function() {
 	return new XMLHttpRequest();
 }
@@ -2329,6 +2365,8 @@ Util.validateResponse = function(response){
 		}
 	}
 }
+
+/*u-string.js*/
 Util.cutString = function(string, length) {
 	var matches, match, i;
 	if(string.length <= length) {
@@ -2385,6 +2423,7 @@ Util.stringOr = function(value, replacement) {
 		return replacement ? replacement : "";
 	}	
 }
+/*u-system.js*/
 Util.browser = function(model, version) {
 	var current_version = false;
 	if(model.match(/\bexplorer\b|\bie\b/i)) {
@@ -2454,6 +2493,8 @@ Util.windows = function() {
 Util.osx = function() {
 	return (navigator.userAgent.indexOf("OS X") >= 0) ? true : false;
 }
+
+/*u-timer.js*/
 Util.Timer = u.t = new function() {
 	this._timers = new Array();
 	this.setTimer = function(node, action, timeout) {
@@ -2511,6 +2552,8 @@ Util.Timer = u.t = new function() {
 		}
 	}
 }
+
+/*u-url.js*/
 Util.getVar = function(param, url) {
 	var string = url ? url.split("#")[0] : location.search;
 	var regexp = new RegExp("[\&\?\b]{1}"+param+"\=([^\&\b]+)");
@@ -2522,207 +2565,3 @@ Util.getVar = function(param, url) {
 		return "";
 	}
 }
-
-/*u-init.js*/
-Util.Objects = u.o = new Object();
-Util.init = function(scope) {
-	var i, node, nodes, object;
-	scope = scope && scope.nodeName ? scope : document;
-	nodes = u.ges("i\:([_a-zA-Z0-9])+");
-	for(i = 0; node = nodes[i]; i++) {
-		while((object = u.cv(node, "i"))) {
-			u.rc(node, "i:"+object);
-			if(object && typeof(u.o[object]) == "object") {
-				u.o[object].init(node);
-			}
-		}
-	}
-}
-
-/*i-page.js*/
-Util.Objects["page"] = new function() {
-	this.init = function(page) {
-		page.hN = u.qs("#header", page);
-		page.hN.page = page;
-		page.cN = u.qs("#content", page);
-		page.cN.page = page;
-		page.nN = u.qs("#navigation", page);
-		if(page.nN) {
-			page.nN = page.hN.appendChild(page.nN);
-			u.as(page.nN, "display", "block");
-			page.nN.page = page;
-		}
-		page.fN = u.qs("#footer", page);
-		page.fN.page = page;
-		if(navigator.standalone === true) {
-			u.ac(document.body, "app");
-		}
-		u.e.drag(page, page);
-		page._login = u.qs(".scene.login", page);
-		page._login.page = page;
-		page._presentation = u.qs(".scene.presentation", page);
-		page._presentation.page = page;
-		page._add = u.qs(".scene.add", page);
-		page._add.page = page;
-		page._list = u.qs(".scene.list", page);
-		page._list.page = page;
-		page._feedback = u.qs(".scene.feedback", page);
-		page._feedback.page = page;
-		u.ac(page, "ready");
-		page.showList = function() {
-			u.as(this._list, "display", "block");
-			u.a.transition(this._list, "all 0.5s ease-in");
-			u.a.setOpacity(this._list, 1);
-			var presentations = u.qsa(".list li", this._list);
-			for(i = 0; pres = presentations[i]; i++) {
-				pres.page = this;
-				u.e.click(pres);
-				pres.clicked = function() {
-					this.page._list.transitioned = function() {
-						this.transitioned = null;
-						u.as(this.page._list, "display", "none");
-						this.page.showPresentation();
-					}
-					u.a.transition(this.page._list, "all 0.5s ease-in");
-					u.a.setOpacity(this.page._list, 0);
-				}
-			}
-			var add = u.qs(".actions li", this._list);
-			add.page = page;
-			u.ce(add);
-			add.clicked = function(event) {
-				u.e.kill(event);
-				this.page._list.transitioned = function() {
-					this.transitioned = null;
-					u.as(this.page._list, "display", "none");
-					this.page.showAdd();
-				}
-				u.a.transition(this.page._list, "all 0.5s ease-in");
-				u.a.setOpacity(this.page._list, 0);
-			}
-		}
-		page.showPresentation = function() {
-			u.as(this._presentation, "display", "block");
-			u.a.transition(this._presentation, "all 0.5s ease-in");
-			u.a.setOpacity(this._presentation, 1);
-			u.ac(document.body, "pres");
-			var close = u.qs(".close", this._presentation);
-			close.page = page;
-			u.ce(close);
-			close.clicked = function(event) {
-				u.e.kill(event);
-				this.page._presentation.transitioned = function() {
-					this.transitioned = null;
-					u.as(this.page._presentation, "display", "none");
-					u.rc(document.body, "pres");
-					this.page.showList();
-				}
-				u.a.transition(this.page._presentation, "all 0.5s ease-in");
-				u.a.setOpacity(this.page._presentation, 0);
-			}
-			var feedback = u.qs(".feedback", this._presentation);
-			feedback.page = page;
-			u.ce(feedback);
-			feedback.clicked = function(event) {
-				u.a.transition(this.page._feedback, "none");
-				u.a.translate(this.page._feedback, 0, -1000);
-				u.as(this.page._feedback, "display", "block");
-				u.a.transition(this.page._feedback, "all 0.5s ease-in");
-				u.a.translate(this.page._feedback, 0, 0);
-				var actions = u.qsa(".actions li", this.page._feedback);
-				for(i = 0; action = actions[i]; i++) {
-					action.page = this.page;
-					u.e.click(action);
-					action.clicked = function() {
-						this.page._feedback.transitioned = function() {
-							this.transitioned = null;
-							u.as(this.page._feedback, "display", "none");
-						}
-						u.a.transition(this.page._feedback, "all 0.5s ease-in");
-						u.a.translate(this.page._feedback, 0, -1000);
-					}
-				}
-			}
-			var pres = u.qs("ul.presentation");
-			u.e.swipe(pres, pres);
-			u.a.translate(pres, 0, 0);
-			pres.i = 0;
-			pres.picked = function() {
-				u.a.transition(this, "none");
-			}
-			pres.moved = function() {
-				u.a.translate(this, this.current_x, 0);
-			}
-			pres.dropped = function() {}
-			pres.swipedLeft = function() {
-				if(this.i < 2) {
-					this.i++;
-				}
-				u.a.transition(this, "all 0.3s ease-out");
-				u.a.translate(this, -(1024*this.i), 0);
-			}
-			pres.swipedRight = function() {
-				if(this.i > 0) {
-					this.i--;
-				}
-				u.a.transition(this, "all 0.3s ease-out");
-				u.a.translate(this, -(1024*this.i), 0);
-			}
-		}
-		page.showAdd = function() {
-			u.as(this._add, "display", "block");
-			u.a.transition(this._add, "all 0.5s ease-in");
-			u.a.setOpacity(this._add, 1);
-			var actions = u.qsa(".list li .button", this._add);
-			for(i = 0; action = actions[i]; i++) {
-				action.page = this;
-				u.ce(action);
-				action.clicked = function() {
-					if(u.tc(this, "add", "remove").match("add")) {
-						this.innerHTML = "Add";
-						u.rc(this.parentNode.parentNode.parentNode, "added");
-					}
-					else {
-						this.innerHTML = "Remove";
-						u.ac(this.parentNode.parentNode.parentNode, "added");
-					}
-				}
-			}
-			var done = u.qs(".actions li", this._add);
-			done.page = page;
-			u.ce(done);
-			done.clicked = function(event) {
-				u.e.kill(event);
-				this.page._add.transitioned = function() {
-					this.transitioned = null;
-					u.as(this.page._add, "display", "none");
-					this.page.showList();
-				}
-				u.a.transition(this.page._add, "all 0.5s ease-in");
-				u.a.setOpacity(this.page._add, 0);
-			}
-		}
-		if(!navigator.onLine) {
-			page.showList();
-		}
-		else {
-			page._login._submit = u.qs(".actions li");
-			page._login._submit.page = page;
-			u.e.click(page._login._submit);
-			page._login._submit.clicked = function(event) {
-				u.e.kill(event);
-				this.page._login.transitioned = function() {
-					this.transitioned = null;
-					u.as(this.page._login, "display", "none");
-					this.page.showList();
-				}
-				u.a.transition(this.page._login, "all 0.5s ease-in");
-				u.a.setOpacity(this.page._login, 0);
-			}
-			u.as(page._login, "display", "block");
-			u.a.transition(page._login, "all 0.5s ease-in");
-			u.a.setOpacity(page._login, 1);
-		}
-	}
-}
-window.onload = u.init;
