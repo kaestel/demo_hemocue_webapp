@@ -1,5 +1,5 @@
 
-/*seg_mobile_light.js*/
+/*seg_mobile.js*/
 if(!u || !Util) {
 	var u, Util = u = new function() {}
 	u.version = 0.7;
